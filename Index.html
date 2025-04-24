@@ -1,5 +1,68 @@
-<html>
-  <body>
-    <h1>Welcome to Apna TOON </h1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>APNA TOON Game - Catch the Star</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #87ceeb;
+      font-family: sans-serif;
+    }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .star {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/18/Five-pointed_star.svg');
+      background-size: cover;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="score">Score: 0</div>
+  <script>
+    let score = 0;
+    const scoreBoard = document.getElementById("score");
+
+    function createStar() {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.left = Math.random() * (window.innerWidth - 40) + "px";
+      star.style.top = "-40px";
+      document.body.appendChild(star);
+
+      let speed = 2 + Math.random() * 3;
+      let fallInterval = setInterval(() => {
+        let top = parseFloat(star.style.top);
+        star.style.top = top + speed + "px";
+
+        if (top > window.innerHeight) {
+          star.remove();
+          clearInterval(fallInterval);
+        }
+      }, 20);
+
+      star.addEventListener("click", () => {
+        score++;
+        scoreBoard.textContent = "Score: " + score;
+        star.remove();
+        clearInterval(fallInterval);
+      });
+    }
+
+    setInterval(createStar, 1000);
+  </script>
+</body>
 </html>
